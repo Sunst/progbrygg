@@ -1,9 +1,7 @@
-#from numpy  import *
+from numpy import *
+from numpy import matlib
 from Tkinter import *
-
-# my_widget = Label(tkRoot, text="Hello world")
-# my_widget.pack()
-# tkRoot.mainloop()
+from tkMessageBox import *
 
 tkRoot = Tk()
 numPySelectionInput = StringVar()
@@ -11,22 +9,56 @@ numPySelectionInput.set("yes")
 matrixSizeInput     = StringVar()
 matrixSizeInput.set(3)
 epsilonInput        = StringVar()
-epsilonInput.set(42)
+epsilonInput.set(1e-6)
 
-def startComputation(matrixSize, epsilon):
-    print "starting computation using builtin types, N =" + matrixSize + " epsilon = " + epsilon
+def startComputation(N, epsilon ):
+    print "starting computation using builtin types, N =" + str(N) + " epsilon = " + str(epsilon)
 
-def startComputationNumPy(matrixSize, epsilon):
-    print "starting computation using numPy, N =" + matrixSize + " epsilon = " + epsilon
+def startComputation_np(N, e_limit, maxIt):    
+    m = matlib.randn(N, N)
+    x = matlib.ones((N,1))    
+    itCnt = 0
+    success = False
+    while itCnt < maxIt and not success:
+        itCnt += 1
+        y = m * x
+        y_max = y.max()
+        x_new = y / y_max
+        e_k = vectorChange_np(N, x, x_new)
+        x = x_new
+        if e_k <= e_limit :
+            success = True          
+    if success:
+        msg = "eigenvalue:\n" + str(y_max) + "\n\neigenvector:\n"        
+        i = 0
+        while i < N and i < 10:
+            msg += str(x_new[i,0]) + "\n"
+            i+=1
+        if i >=10:
+            print "..."
+    else:
+        msg = "did not converge"
+    showinfo("Result", msg)
+        
+                    
+def vectorChange_np(N, a, b):
+    i = 0
+    s = 0.
+    while i < N:
+        diff = a[i,0] - b[i,0]
+        s += diff * diff
+        i+=1        
+    s = s/N
+    return sqrt(s)
+    
 
 def onComputeClick():
-    N = matrixSizeInput.get()    
-    epsilon = epsilonInput.get()
-    #validate N and epsilon!    
+    N = int(matrixSizeInput.get())    
+    epsilon = float(epsilonInput.get())
     if numPySelectionInput.get() == "no":
         startComputation(N, epsilon)
     elif numPySelectionInput.get() == "yes":
-        startComputationNumPy(N, epsilon)
+        startComputation_np(N, epsilon, 1000)
     else:
         raise
 
