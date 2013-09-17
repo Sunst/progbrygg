@@ -1,0 +1,132 @@
+\documentclass[11pt]{amsart}
+\usepackage{geometry}                % See geometry.pdf to learn the layout options. There are lots.
+\geometry{letterpaper}                   % ... or a4paper or a5paper or ... 
+%\geometry{landscape}                % Activate for for rotated page geometry
+%\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{epstopdf}
+\usepackage{amsmath}
+
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+
+\title{Brief Article}
+\author{Knut Lorenzen}
+%\date{}                                           % Activate to display a given date or no date
+
+\begin{document}
+\maketitle
+\section{}
+Step 1:\\
+
+\begin{pmatrix} 
+6&3&2\\
+	7 & 2 & 3\\
+	5 & 5 & 1			
+\end{pmatrix}
+\begin{pmatrix} 1\\ 1 \\ 1\end{pmatrix} 
+= 
+\begin{pmatrix} 11 \\ 12 \\ 11 \end{pmatrix}
+ =    12 \begin{pmatrix}  0.9167 \\ 1 \\  0.9167 \end{pmatrix}\\
+
+Step 2:\\
+
+\begin{pmatrix} 
+6&3&2\\
+	7 & 2 & 3\\
+	5 & 5 & 1			
+\end{pmatrix}
+\begin{pmatrix}  0.9167 \\ 1 \\  0.9167 \end{pmatrix}
+=  \begin{pmatrix} 10.3333  \\ 11.1667  \\  10.5000  \end{pmatrix}
+ =   11.1667  \begin{pmatrix}  0.9254 \\ 1 \\  0.9403 \end{pmatrix}\\
+
+Step 3:\\
+
+\begin{pmatrix} 
+6&3&2\\
+	7 & 2 & 3\\
+	5 & 5 & 1			
+\end{pmatrix}
+\begin{pmatrix}  0.9254 \\ 1 \\  0.9403 \end{pmatrix}
+= \begin{pmatrix}  10.4328 \\ 11.2985 \\  10.5672 \end{pmatrix}
+=  11.2985  \begin{pmatrix} 0.9234  \\ 1 \\ 0.9353  \end{pmatrix}\\
+
+Step 4:\\
+
+\begin{pmatrix} 
+6&3&2\\
+	7 & 2 & 3\\
+	5 & 5 & 1			
+\end{pmatrix}
+ \begin{pmatrix} 0.9234  \\ 1 \\ 0.9353  \end{pmatrix}
+= \begin{pmatrix} 10.4108  \\ 11.2695 \\ 10.5522  \end{pmatrix}
+=  11.2695  \begin{pmatrix} 0.9238  \\  1 \\  0.9364 \end{pmatrix}\\
+
+Step 5:\\
+
+\begin{pmatrix} 
+6&3&2\\
+	7 & 2 & 3\\
+	5 & 5 & 1			
+\end{pmatrix}
+\begin{pmatrix} 0.9238  \\  1 \\  0.9364 \end{pmatrix}
+= \begin{pmatrix}  10.4155 \\ 11.2757 \\ 10.5554  \end{pmatrix}
+=  11.2757 \begin{pmatrix}  0.9237 \\  1 \\ 0.9361  \end{pmatrix}\\
+
+Step 5:\\
+
+\begin{pmatrix} 
+6&3&2\\
+	7 & 2 & 3\\
+	5 & 5 & 1			
+\end{pmatrix}
+\begin{pmatrix}  0.9237 \\  1 \\ 0.9361  \end{pmatrix}
+= \begin{pmatrix} 10.4145  \\ 11.2744  \\  10.5547 \end{pmatrix}
+=  11.2744 \begin{pmatrix}0.9237\\  1 \\  0.9362 \end{pmatrix}\\
+
+
+Step 6:\\
+
+\begin{pmatrix} 
+6&3&2\\
+	7 & 2 & 3\\
+	5 & 5 & 1			
+\end{pmatrix}
+\begin{pmatrix}0.9237\\  1 \\  0.9362 \end{pmatrix}
+= \begin{pmatrix}  10.4147 \\  11.2747 \\  10.5549 \end{pmatrix}
+=  11.2747 \begin{pmatrix} 0.9237 \\  1 \\ 0.9362  \end{pmatrix}\\
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{}
+Step 1\\
+
+\begin{pmatrix}
+1&1\\
+0 & -1\\	
+\end{pmatrix}
+\begin{pmatrix} 1 \\ 1   \end{pmatrix}
+= 
+\begin{pmatrix}2  \\ -1  }  \end{pmatrix}
+= 2 \begin{pmatrix} 1  \\ -0.5 \end{pmatrix}\\
+
+
+Step 2\\
+
+\begin{pmatrix}
+1&1\\
+0 & -1\\	
+\end{pmatrix}
+\begin{pmatrix} 1  \\ -0.5 \end{pmatrix}
+= 
+\begin{pmatrix}1  \\ 1  }  \end{pmatrix}
+= 0.5  \begin{pmatrix} 1  \\1 \end{pmatrix}\\
+
+x2 = x0 !
+
+
+\end{document}  
+
