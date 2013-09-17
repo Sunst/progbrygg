@@ -2,6 +2,8 @@ from numpy import *
 from numpy import matlib
 from Tkinter import *
 from tkMessageBox import *
+import time
+
 
 tkRoot = Tk()
 numPySelectionInput = StringVar()
@@ -16,7 +18,8 @@ def startComputation(N, epsilon ):
 
 def startComputation_np(N, e_limit, maxIt):    
     m = matlib.randn(N, N)
-    x = matlib.ones((N,1))    
+    x = matlib.ones((N,1))  
+    start = time.clock()     
     itCnt = 0
     success = False
     while itCnt < maxIt and not success:
@@ -27,7 +30,8 @@ def startComputation_np(N, e_limit, maxIt):
         e_k = vectorChange_np(N, x, x_new)
         x = x_new
         if e_k <= e_limit :
-            success = True          
+            success = True
+    elapsed_time = time.clock()-start      
     if success:
         msg = "eigenvalue:\n" + str(y_max) + "\n\neigenvector:\n"        
         i = 0
@@ -38,6 +42,9 @@ def startComputation_np(N, e_limit, maxIt):
             print "..."
     else:
         msg = "did not converge"
+    
+    msg += "\n\n elapsed time: " + str(elapsed_time) + " seconds"    
+        
     showinfo("Result", msg)
         
                     
