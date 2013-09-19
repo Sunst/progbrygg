@@ -5,7 +5,15 @@ from tkMessageBox import *
 import time
 from random import gauss
 
+############################################################################################
+## builtin types computation section
 
+# startComputation
+# computes the eigenvalue and eigenvector using lists
+# N (integer)    : size of the matrix
+# e_limit (float): smallest difference between two vectors at which to stop the computation 
+# maxIt (integer): Maximum number of iterations
+#
 def startComputation(N, e_limit, maxIt):
     m = generateRandMatrix(N)
     #initialise x
@@ -28,6 +36,11 @@ def startComputation(N, e_limit, maxIt):
     showResult(success, N, y_max, x, time.clock()-start)
    
    
+# multiply
+# multiplies a square matrix represented by nested lists with a vector
+# N (integer)             : Size of the matrix and the vector
+# m (list(list(integer))) : A matrix with each row represented by a list of integers
+# v (list(integer))       : A column vector represented as a list of integers
 def multiply(N, m, v):    
     res = []
     for i in range(N):
@@ -37,9 +50,15 @@ def multiply(N, m, v):
             res[i] += m[i][j] * v[j]        
     return res
    
+# generateRandMatrix
+# generates a square matrix represented as nested lists, with a gaussian distribution of 
+# mean 0 and sigma 1
+# N (integer): size of the matrix
+#
 def generateRandMatrix(N):
     m = []
     for j in range(N):
+        # r is a row of the matrix
         r = []
         for i in range(N):
             r.append(gauss(0, 1))
@@ -47,6 +66,33 @@ def generateRandMatrix(N):
     return m
 
 
+# vectorChange
+# computes the the difference e_k between two vectors 
+# N (integer) : Length of the vectors (must be identical)
+# a (list(integer)) : A vector 
+# b (list(integer)) : A vector
+#
+def vectorChange(N, a, b):
+    i = 0
+    s = 0.
+    while i < N:
+        diff = a[i] - b[i]
+        s += diff * diff
+        i+=1
+    s = s/N
+    return sqrt(s) 
+
+
+########################################################################################
+## numpy computation section
+
+
+# startComputation_np
+# computes the eigenvalue and eigenvector using numpy matrix objects
+# N (integer)    : size of the matrix
+# e_limit (float): smallest difference between two vectors at which to stop the computation 
+# maxIt (integer): Maximum number of iterations
+#
 def startComputation_np(N, e_limit, maxIt):    
     m = matlib.randn(N, N)
     x = matlib.ones((N,1))  
@@ -64,8 +110,40 @@ def startComputation_np(N, e_limit, maxIt):
             success = True                        
     showResult(success, N, y_max, x.tolist(), time.clock()-start)  
         
-        
-def showResult(success, N, eigenvalue=None, eigenvector=None, timeLapse=None):
+
+# vectorChange_np
+# computes the the difference e_k between two vectors 
+# N (integer) : Length of the vectors (must be identical)
+# a (np.matrix) : A vector 
+# b (np.matrix) : A vector
+#                    
+def vectorChange_np(N, a, b):
+    i = 0
+    s = 0.
+    while i < N:
+        diff = a[i,0] - b[i,0]
+        s += diff * diff
+        i+=1        
+    s = s/N
+    return sqrt(s)
+
+
+
+########################################################################################
+## Graphical UI section
+
+
+# showResult
+# displays a message box with computation results
+# success (Bool) : True if an eigenvector could be found. The eigenvalue and the first 10 
+#                  elements of the eigenvector will be displayed. If False, a message will
+#                  be shown instead
+# (optional) N (integer)            : Length of the eigenvector
+# (optional) eigenvalue (float)     : The eigenvalue
+# (optional) eigenvector (list(integer)) : The eigenvecor in form of a list of integers
+# (optional) timeLapse (float) : The time needed to compute in seconds
+   
+def showResult(success, N=None, eigenvalue=None, eigenvector=None, timeLapse=None):
     if success:
         msg = "eigenvalue:\n" + str(eigenvalue) + "\n\neigenvector:\n"        
         i = 0
@@ -80,30 +158,10 @@ def showResult(success, N, eigenvalue=None, eigenvector=None, timeLapse=None):
     if timeLapse != None:
         msg += "\n\n elapsed time: " + str(timeLapse) + " seconds"    
         
-    showinfo("Result", msg)        
-                    
-                    
-                    
-def vectorChange_np(N, a, b):
-    i = 0
-    s = 0.
-    while i < N:
-        diff = a[i,0] - b[i,0]
-        s += diff * diff
-        i+=1        
-    s = s/N
-    return sqrt(s)
+    showinfo("Result", msg)     
 
-def vectorChange(N, a, b):
-    i = 0
-    s = 0.
-    while i < N:
-        diff = a[i] - b[i]
-        s += diff * diff
-        i+=1        
-    s = s/N
-    return sqrt(s)    
-
+# onComputeClick
+# Callback for the 'Compute' button. Evaluates the user input  and starts the computation
 def onComputeClick():
     N = int(matrixSizeInput.get())    
     epsilon = float(epsilonInput.get())
@@ -113,9 +171,9 @@ def onComputeClick():
         startComputation_np(N, epsilon, 1000)
     else:
         raise
-
     
-if __name__ == "__main__":    
+if __name__ == "__main__":   
+    # initialise and show the user interface 
     tkRoot = Tk()
     numPySelectionInput = StringVar()
     numPySelectionInput.set("yes")
