@@ -3,7 +3,7 @@ from numpy import matlib
 from Tkinter import *
 from tkMessageBox import *
 import time
-
+from random import gauss
 
 tkRoot = Tk()
 numPySelectionInput = StringVar()
@@ -13,8 +13,46 @@ matrixSizeInput.set(3)
 epsilonInput        = StringVar()
 epsilonInput.set(1e-6)
 
-def startComputation(N, epsilon ):
-    print "starting computation using builtin types, N =" + str(N) + " epsilon = " + str(epsilon)
+def startComputation(N, e_limit, maxIt):
+    m = generateRandMatrix(N)
+    #initialise x
+    x = []
+    for i in range(N):
+        x.append(1)
+    itCnt = 0
+    success = False
+    start = time.clock()         
+    while itCnt < maxIt and not success:
+        itCnt += 1
+        y = multiply(N, m, x)         
+        y_max = max(y)
+        new_x = []
+        for i in range(N):
+            new_x.append( y[i]/y_max )
+        if vectorChange(N, x, new_x) <= e_limit:
+            success = True
+        x = new_x            
+    showResult(success, N, y_max, x, time.clock()-start)
+   
+   
+def multiply(N, m, v):    
+    res = []
+    for i in range(N):
+        res.append(0)    
+    for i in range(N) :        
+        for j in range(N):
+            res[i] += m[i][j] * v[j]        
+    return res
+   
+def generateRandMatrix(N):
+    m = []
+    for j in range(N):
+        r = []
+        for i in range(N):
+            r.append(gauss(0, 1))
+        m.append(r)
+    return m
+
 
 def startComputation_np(N, e_limit, maxIt):    
     m = matlib.randn(N, N)
@@ -30,23 +68,28 @@ def startComputation_np(N, e_limit, maxIt):
         e_k = vectorChange_np(N, x, x_new)
         x = x_new
         if e_k <= e_limit :
-            success = True
-    elapsed_time = time.clock()-start      
+            success = True                        
+    showResult(success, N, y_max, x.tolist(), time.clock()-start)  
+        
+        
+def showResult(success, N, eigenvalue=None, eigenvector=None, timeLapse=None):
     if success:
-        msg = "eigenvalue:\n" + str(y_max) + "\n\neigenvector:\n"        
+        msg = "eigenvalue:\n" + str(eigenvalue) + "\n\neigenvector:\n"        
         i = 0
         while i < N and i < 10:
-            msg += str(x_new[i,0]) + "\n"
+            msg += str(eigenvector[i]) + "\n"
             i+=1
         if i >=10:
-            print "..."
+            msg += "..."              
     else:
         msg = "did not converge"
-    
-    msg += "\n\n elapsed time: " + str(elapsed_time) + " seconds"    
         
-    showinfo("Result", msg)
+    if timeLapse != None:
+        msg += "\n\n elapsed time: " + str(timeLapse) + " seconds"    
         
+    showinfo("Result", msg)        
+                    
+                    
                     
 def vectorChange_np(N, a, b):
     i = 0
@@ -57,13 +100,22 @@ def vectorChange_np(N, a, b):
         i+=1        
     s = s/N
     return sqrt(s)
-    
+
+def vectorChange(N, a, b):
+    i = 0
+    s = 0.
+    while i < N:
+        diff = a[i] - b[i]
+        s += diff * diff
+        i+=1        
+    s = s/N
+    return sqrt(s)    
 
 def onComputeClick():
     N = int(matrixSizeInput.get())    
     epsilon = float(epsilonInput.get())
     if numPySelectionInput.get() == "no":
-        startComputation(N, epsilon)
+        startComputation(N, epsilon, 1000)
     elif numPySelectionInput.get() == "yes":
         startComputation_np(N, epsilon, 1000)
     else:
