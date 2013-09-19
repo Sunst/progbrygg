@@ -5,13 +5,6 @@ from tkMessageBox import *
 import time
 from random import gauss
 
-tkRoot = Tk()
-numPySelectionInput = StringVar()
-numPySelectionInput.set("yes")
-matrixSizeInput     = StringVar()
-matrixSizeInput.set(3)
-epsilonInput        = StringVar()
-epsilonInput.set(1e-6)
 
 def startComputation(N, e_limit, maxIt):
     m = generateRandMatrix(N)
@@ -121,7 +114,15 @@ def onComputeClick():
     else:
         raise
 
-def initUi():        
+    
+if __name__ == "__main__":    
+    tkRoot = Tk()
+    numPySelectionInput = StringVar()
+    numPySelectionInput.set("yes")
+    matrixSizeInput     = StringVar()
+    matrixSizeInput.set(3)
+    epsilonInput        = StringVar()
+    epsilonInput.set(1e-6)    
     f1 = LabelFrame(tkRoot, text="Method")
     f1.pack()
     Radiobutton(f1,command = None,
@@ -141,7 +142,3 @@ def initUi():
     Button(tkRoot, text="Compute", command=onComputeClick).pack(side=LEFT, fill=X)
     Button(tkRoot, text="Exit", command=sys.exit).pack(side=RIGHT, fill=Y)
     mainloop()
-
-    
-if __name__ == "__main__":    
-    initUi()
