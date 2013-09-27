@@ -33,7 +33,7 @@ def startComputation(N, e_limit, maxIt):
         if vectorChange(N, x, new_x) <= e_limit:
             success = True
         x = new_x            
-    showResult(success, N, y_max, x, time.clock()-start)
+    showResult(success, N, y_max, x, time.clock()-start, itCnt)
    
    
 # multiply
@@ -107,8 +107,8 @@ def startComputation_np(N, e_limit, maxIt):
         e_k = vectorChange_np(N, x, x_new)
         x = x_new
         if e_k <= e_limit :
-            success = True                        
-    showResult(success, N, y_max, x.tolist(), time.clock()-start)  
+            success = True
+    showResult(success, N, y_max, x.tolist(), time.clock()-start, itCnt)  
         
 
 # vectorChange_np
@@ -143,7 +143,7 @@ def vectorChange_np(N, a, b):
 # (optional) eigenvector (list(integer)) : The eigenvecor in form of a list of integers
 # (optional) timeLapse (float) : The time needed to compute in seconds
    
-def showResult(success, N=None, eigenvalue=None, eigenvector=None, timeLapse=None):
+def showResult(success, N=None, eigenvalue=None, eigenvector=None, timeLapse=None, itCount=None):
     if success:
         msg = "eigenvalue:\n" + str(eigenvalue) + "\n\neigenvector:\n"        
         i = 0
@@ -153,11 +153,11 @@ def showResult(success, N=None, eigenvalue=None, eigenvector=None, timeLapse=Non
         if i >=10:
             msg += "..."              
     else:
-        msg = "did not converge"
-        
+        msg = "did not converge"        
     if timeLapse != None:
-        msg += "\n\n elapsed time: " + str(timeLapse) + " seconds"    
-        
+        msg += "\n\n elapsed time: " + str(timeLapse) + " seconds"          
+    if success and itCount != None:
+        msg += "\n\niteration count: " + str(itCount)
     showinfo("Result", msg)     
 
 # onComputeClick
