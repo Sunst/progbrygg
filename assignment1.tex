@@ -10,13 +10,45 @@
 
 \DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
 
-\title{Brief Article}
-\author{Knut Lorenzen}
-%\date{}                                           % Activate to display a given date or no date
+\title{ Uppsala University\\ Department Of IT \\Programming bridging course HT2013 \\Python Assignment}
+\author{Knut Lorenzen 810326-T296}
+\date{}                                           % Activate to display a given date or no date
 
 \begin{document}
 \maketitle
-\section{}
+
+\section{Program structure}
+
+There's  three major parts contained in a single file:
+\begin{itemize}
+\item GUI
+\item Standard Python types computation
+\item NymPy computation
+\end{itemize}
+
+\subsection{GUI}
+\begin{itemize}
+\item If the script is run, the GUI is initialised and shown, waiting for the user to press the compute button
+\item a callback function that will evaluate the input forms and start the computation
+\item there's a function that will display a message box with results of the calculation, to be called from within the computation section
+\end{itemize}
+
+\subsection{Standard Python types computation}
+\begin{itemize}
+\item an entry point function to be called from the GUI
+\item the parameters are the matrix size N, the upper limit of iterations and the minimum vector change
+\item a subroutine for generating square matrices with random numbers. 
+It accepts a parameter N to determine the matrix size
+\item a function that multiplies a square matrix with a column vector
+\item a function that calculates the vector change
+\end{itemize}
+
+\subsection{NymPy computation}
+\begin{itemize}
+\item there's an entry point function to be called from the GUI, with similar parameters as the equivalent in the standard python type computation
+\item a function that calculates the vector change
+\end{itemize}
+\section{A Converging Example Calculation}
 Step 1:\\
 
 \begin{pmatrix} 
@@ -39,6 +71,7 @@ Step 2:\\
 \begin{pmatrix}  0.9167 \\ 1 \\  0.9167 \end{pmatrix}
 =  \begin{pmatrix} 10.3333  \\ 11.1667  \\  10.5000  \end{pmatrix}
  =   11.1667  \begin{pmatrix}  0.9254 \\ 1 \\  0.9403 \end{pmatrix}\\
+
 
 Step 3:\\
 
@@ -100,8 +133,8 @@ Step 6:\\
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{}
+\newpage
+\section{A Non Converging Example Calculation}
 Step 1\\
 
 \begin{pmatrix}
@@ -127,6 +160,92 @@ Step 2\\
 
 x2 = x0 !
 
+\section{Results}
+
+%% numPy 
+%N = 100 
+%199 steps,  0.28s,  -> 1.4ms/step
+%256 steps, 0.36s,  -> 1.4ms/step
+%222 steps, 0.31s
+%
+%N=150
+%118 steps, 0.24s   -> 2 ms/step
+%268 steps, 0.55s 
+%460 steps, 0.93s
+%
+%
+%N=200
+%126 steps, 0.34s ->  
+%330 steps, 0.919s -> 2.7ms/step
+%883 steps, 2.44s
+
+% N = 400
+% 496 steps, 2.6 s ->  5.2 ms / step
+
+% N = 800
+% 4000 steps, 52s  -> 13 ms / step
+% 
+% 
+
+
+% N = 1000 
+% numpy: 88 secs, 5000 steps -> 17,6 ms/step
+
+% % standard types
+%N= 100
+%152 steps, 0.94 s ~6ms/step
+%132 steps, 0.82 s 
+%112 steps, 0.60 s
+%
+%N = 150
+%152, 2.2s  14.4ms/step
+%531, 7.76s
+%384, 5.26s
+%
+%N= 200
+%
+%868 steps 26s  28ms/step
+%558 steps 13s  23ms/step
+%257 steps 8.3 s 32 ms/step 
+
+% N = 400
+%  400*5=2000 steps, 226s -> 113 ms/step
+% ~ 4 fold increase over N = 400
+
+% N = 800 
+%  4000 steps , 1874s -> 469 ms/step 
+% 4-fold increase over N=400
+
+% standard types: 
+%
+% % %
+% % %growth rates
+%  % numpy 
+%  N=100 1.4 ms/step
+%  N = 200 3 ms/step
+% N = 400  5 ms/step
+% double matrix size, double time -> linear
+%  % standard types
+% N = 100 6 ms
+% N = 150 17 ms
+% N = 200 32 ms
+% N = 400 56 ms
+% N = 800
+% 5 fold increase in time for double matrix size (6*6 =36) quadratic/polinomial/exponential?
+
+
+\begin{table}[!hbp]
+\begin{tabular}{llc}\hlineN &  NumPy &  Standard Types \\ 
+\hline100 &  1 &    4.3         \\
+200 &  1.9  &   20            \\
+400 & 3.7   &   80            \\
+800 &  9.3  &    335         \\
+\hline\end{tabular}
+\caption{Time measurements (per iteration, relative)}
+\end{table}
+
+Measurements were done with matrix sizes of N=100, 200, 400 and 800. 
+The NumPy computation scales linearly, while the standard python types implementation scales quadratic (increasing 4 fold with doubling the problem size).
 
 \end{document}  
 
