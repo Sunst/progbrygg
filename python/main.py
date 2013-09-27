@@ -165,10 +165,11 @@ def showResult(success, N=None, eigenvalue=None, eigenvector=None, timeLapse=Non
 def onComputeClick():
     N = int(matrixSizeInput.get())    
     epsilon = float(epsilonInput.get())
+    maxIt =N*5
     if numPySelectionInput.get() == "no":
-        startComputation(N, epsilon, 1000)
+        startComputation(N, epsilon, maxIt)
     elif numPySelectionInput.get() == "yes":
-        startComputation_np(N, epsilon, 1000)
+        startComputation_np(N, epsilon, maxIt)
     else:
         raise
     
