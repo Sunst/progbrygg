@@ -1,3 +1,10 @@
+# Uppsala University
+# Department Of IT
+# Programming bridging course Autumn 2013
+# Python assignment
+# Student: Knut Lorenzen 810326-T296
+
+
 from numpy import *
 from numpy import matlib
 from Tkinter import *
