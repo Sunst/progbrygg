@@ -29,15 +29,15 @@ There's  three major parts contained in a single file:
 \subsection{GUI}
 \begin{itemize}
 \item If the script is run, the GUI is initialised and shown, waiting for the user to press the compute button
-\item a callback function that will evaluate the input forms and start the computation
+\item a callback function that will evaluate the input forms and start the computation. This function also builds a matrix according to the users' selection (converging example, non converging example, random with a given size, as nested lists or numpy matrix)
 \item there's a function that will display a message box with results of the calculation, to be called from within the computation section
 \end{itemize}
 
 \subsection{Standard Python types computation}
 \begin{itemize}
 \item an entry point function to be called from the GUI
-\item the parameters are the matrix size N, the upper limit of iterations and the minimum vector change
-\item a subroutine for generating square matrices with random numbers. 
+\item the parameters are the matrix, its size N, the upper limit of iterations and the minimum vector change
+\item a function for generating square matrices with random numbers. 
 It accepts a parameter N to determine the matrix size
 \item a function that multiplies a square matrix with a column vector
 \item a function that calculates the vector change
@@ -235,12 +235,16 @@ x2 = x0 !
 
 
 \begin{table}[!hbp]
-\begin{tabular}{llc}\hlineN &  NumPy &  Standard Types \\ 
-\hline100 &  1 &    4.3         \\
+\begin{tabular}{llc}
+\hline
+N &  NumPy &  Standard Types \\ 
+\hline
+100 &  1 &    4.3         \\
 200 &  1.9  &   20            \\
 400 & 3.7   &   80            \\
 800 &  9.3  &    335         \\
-\hline\end{tabular}
+\hline
+\end{tabular}
 \caption{Time measurements (per iteration, relative)}
 \end{table}
 
