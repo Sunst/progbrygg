@@ -69,16 +69,28 @@ int main()
     /*
      create two arrays, fill them with numbers call solve to get a and b. Then calculate k and L
      */
-    
-    int n = 5;
-    
-//    double* x = (double*)malloc(n*sizeof(double));
-  //  double* F = (double*)malloc(n*sizeof(double));
-    
-    double x[] = {1.1, 2.2, 2.9, 4.1, 5.0};
-    double F[] = {1.1, 2.2, 3.1, 4.2, 5.0};
+    int n = 0;
+    printf( "how many pairs?" );
+    scanf( "%i", &n);
+
+    double* x = (double*)malloc(n*sizeof(double));
+    double* F = (double*)malloc(n*sizeof(double));
+        
+    for ( int i=0; i<n; i++ )
+    {
+        printf( "give a pair:" );
+        scanf( "%lf %lf", &x[i], &F[i] );
+    }
     
     double* ab = solve(x, F, n);
+    
+    printf( "The corresponding line is: %lfx + %lf\n", ab[0], ab[1] );
+    
+    double L = -ab[1]/ab[0];
+    printf( "This means that k = %lf and L = %lf\n", ab[0], L );
+    
     free( ab );
+    free( x );
+    free( F );
     return 0;
 }
