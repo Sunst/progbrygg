@@ -17,16 +17,15 @@ from random import gauss
 
 # startComputation
 # computes the eigenvalue and eigenvector using lists
+# m (list(list(integer)) :  A matrix with each row represented by a list of integers
 # N (integer)    : size of the matrix
 # e_limit (float): smallest difference between two vectors at which to stop the computation 
 # maxIt (integer): Maximum number of iterations
-#
-def startComputation(N, e_limit, maxIt):
-    m = generateRandMatrix(N)
+def startComputation(m, N, e_limit, maxIt):    
     #initialise x
     x = []
     for i in range(N):
-        x.append(1)
+        x.append(1.)
     itCnt = 0
     success = False
     start = time.clock()         
@@ -39,7 +38,7 @@ def startComputation(N, e_limit, maxIt):
             new_x.append( y[i]/y_max )
         if vectorChange(N, x, new_x) <= e_limit:
             success = True
-        x = new_x            
+        x = new_x
     showResult(success, N, y_max, x, time.clock()-start, itCnt)
    
    
@@ -96,12 +95,12 @@ def vectorChange(N, a, b):
 
 # startComputation_np
 # computes the eigenvalue and eigenvector using numpy matrix objects
+# m (numpy.matlib.matrix) : The matrix
 # N (integer)    : size of the matrix
 # e_limit (float): smallest difference between two vectors at which to stop the computation 
 # maxIt (integer): Maximum number of iterations
 #
-def startComputation_np(N, e_limit, maxIt):    
-    m = matlib.randn(N, N)
+def startComputation_np(m, N, e_limit, maxIt):        
     x = matlib.ones((N,1))  
     start = time.clock()     
     itCnt = 0
@@ -169,16 +168,25 @@ def showResult(success, N=None, eigenvalue=None, eigenvector=None, timeLapse=Non
 
 # onComputeClick
 # Callback for the 'Compute' button. Evaluates the user input  and starts the computation
-def onComputeClick():
-    N = int(matrixSizeInput.get())    
-    epsilon = float(epsilonInput.get())
-    maxIt =N*5
-    if numPySelectionInput.get() == "no":
-        startComputation(N, epsilon, maxIt)
+def onComputeClick():    
+    epsilon = float(epsilonInput.get())    
+    if matrixInput.get() == "rand":
+        N = int(matrixSizeInput.get())
+        m = generateRandMatrix(N)
+    elif matrixInput.get() == "conv_ex":
+        N = 3
+        m = [[6., 3., 2.], [7., 2., 3.], [5., 5., 1.]]
+    elif matrixInput.get() == "non_conv_ex":
+        N = 2
+        m = [[1., 1.], [0., -1.]]
+        
+    maxIt =N*1000 
+       
+    if  numPySelectionInput.get() == "no":
+        startComputation(m, N, epsilon, maxIt)
     elif numPySelectionInput.get() == "yes":
-        startComputation_np(N, epsilon, maxIt)
-    else:
-        raise
+        m = matlib.asmatrix(m)        
+        startComputation_np(m, N, epsilon, maxIt)        
     
 if __name__ == "__main__":   
     # initialise and show the user interface 
@@ -191,6 +199,7 @@ if __name__ == "__main__":
     epsilonInput.set(1e-6)    
     f1 = LabelFrame(tkRoot, text="Method")
     f1.pack()
+    
     Radiobutton(f1,command = None,
                  text = "Not NumPy",
                  value = "no",
@@ -198,13 +207,31 @@ if __name__ == "__main__":
     Radiobutton(f1,command = None,
                  text = "NumPy",
                  value = "yes",
-                 variable = numPySelectionInput).pack(anchor=W)
+                 variable = numPySelectionInput).pack(anchor=W)    
     f2 = LabelFrame(tkRoot, text="Parameters")
     f2.pack()
     Label(f2, text="Enter the size of the matrix").pack()
     Entry(f2, textvariable=matrixSizeInput).pack()
     Label(f2, text="epsilon").pack()
-    Entry(f2, textvariable=epsilonInput).pack()    
+    Entry(f2, textvariable=epsilonInput).pack()
+    
+    matrixInput = StringVar()    
+    f3 = LabelFrame(tkRoot, text="Input Matrix")
+    Radiobutton(f3,command = None,
+                 text = "randomly generated",
+                 value = "rand",
+                 variable = matrixInput).pack(anchor=W)
+    Radiobutton(f3,command = None,
+                 text = "converging example",
+                 value = "conv_ex",
+                 variable = matrixInput).pack(anchor=W)
+    Radiobutton(f3,command = None,
+                 text = "non converging example",
+                 value = "non_conv_ex",
+                 variable = matrixInput).pack(anchor=W)
+    matrixInput.set("rand")         
+    f3.pack()
+    
     Button(tkRoot, text="Compute", command=onComputeClick).pack(side=LEFT, fill=X)
     Button(tkRoot, text="Exit", command=sys.exit).pack(side=RIGHT, fill=Y)
     mainloop()
