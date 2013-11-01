@@ -1,3 +1,8 @@
+// Uppsala University
+// Department Of IT
+// Programming bridging course Autumn 2013
+// C assignment 4
+// Student: Knut Lorenzen 810326-T296
 //
 //  NewtonRaphson.cpp
 //  cpp assignment 1
@@ -10,7 +15,7 @@
 #include "Complex.h"
 #include <math.h>
 
-Complex NewtonRaphson::run(double epsilon, Complex x0){
+Complex NewtonRaphson::run( double epsilon, Complex x0 ){
     
     Complex xi1( x0 ),
             xi;

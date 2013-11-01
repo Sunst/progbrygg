@@ -1,3 +1,8 @@
+// Uppsala University
+// Department Of IT
+// Programming bridging course Autumn 2013
+// C assignment 4
+// Student: Knut Lorenzen 810326-T296
 //
 //  Complex.h
 //  cpp assignment 1
