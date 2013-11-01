@@ -11,7 +11,8 @@
 
 Complex::Complex(){
     
-    Complex( 0, 0 );
+    real = 0.0;
+    im = 0.0;
 }
 
 
