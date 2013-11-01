@@ -27,20 +27,13 @@ Complex::Complex( double real, double im ){
     this->im = im;
 }
 
-void Complex::setReal( double real ){
-    
-    this->real = real;
-}
 
 double Complex::getReal(){
     
     return real;
 }
 
-void Complex::setIm( double  im){
-    
-    this->im = im;
-}
+
 
 double Complex::getIm(){
     
@@ -78,10 +71,6 @@ Complex Complex::operator-( Complex x ){
                     b - d );
 }
 
-Complex Complex::operator-( double x ){
- 
-    return Complex( real - x, im );
-}
 
 
 Complex Complex::operator*( Complex x ){
@@ -114,10 +103,6 @@ Complex Complex::operator/(Complex x){
 }
 
 
-Complex Complex::operator/( double x ){
-    
-    return Complex( real/x, im/x );
-}
 
 
 double Complex::abs(){

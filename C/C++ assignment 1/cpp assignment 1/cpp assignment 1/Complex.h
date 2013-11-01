@@ -24,9 +24,7 @@ class Complex {
 public:
     Complex();
     Complex( double real, double im );
-    void   setReal( double real );
     double getReal();
-    void   setIm( double  im);
     double getIm();
     Complex operator+( Complex x );
     Complex operator+( double x );
