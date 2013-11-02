@@ -8,6 +8,24 @@ public class Vehicle {
 
     // Konstruktor och get-metoder
     //
+    public Vehicle( int bornTime, char destination ){
+    	
+    	this.bornTime = bornTime;
+    	this.destination = destination;
+    }
 
-    public String toString() {return null;}	
+    public int bornTime() {
+    	
+    	return bornTime;
+    }
+    
+    public char destination() {
+    	
+    	return destination;
+    }
+    
+    public String toString() {
+    	
+    	return "vehicle born at t=" + bornTime + " going to " + destination;
+    }	
 }
