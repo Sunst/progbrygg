@@ -35,5 +35,5 @@ public class Light {
     /**
      * @return A String-representation of the signal that shows its color
      */
-    public String  toString()  {return "a light thingy";}	
+    public String  toString()  {return this.isGreen() ? "G" : "R" ;}	
 }

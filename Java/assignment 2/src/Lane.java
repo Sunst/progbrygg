@@ -72,16 +72,19 @@ public class Lane {
      */
     public String toString() {
     	
-    	String str = "|";
+    	String str = "[";
     	for ( int i = 0; i<theLane.length; i++ ) {
+    		
     		if ( theLane[i] == null )
-    			str += "    |";
+    			
+    			str += " ";
     		else {
     			
     			Vehicle v = theLane[i];
-    			str += v.toString() + "|";
+    			str += v.toString();
     		}	
     	}
+    	str += "]";
     	return str;
     }
 }

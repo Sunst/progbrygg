@@ -17,10 +17,13 @@ public class LaneTest {
 		Assert.assertFalse( lane.lastFree() );
 		Assert.assertNull( lane.getFirst() );
 		Assert.assertNull( lane.removeFirst() );
+		Assert.assertEquals( "[  W]", lane.toString() );
 		
 		lane.step();
+		Assert.assertEquals( "[ W ]", lane.toString() );		
 		lane.step();
-		Assert.assertTrue( lane.lastFree() );		
+		Assert.assertEquals( "[W  ]", lane.toString() );		
+		Assert.assertTrue( lane.lastFree() );	
 		Assert.assertSame( v1, lane.getFirst() );		
 		Assert.assertSame( v1, lane.removeFirst() );
 		Assert.assertNull( lane.getFirst() );

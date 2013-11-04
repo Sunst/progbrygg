@@ -143,5 +143,9 @@ public class TrafficSystem {
      * Prints a graphical representation of the current traffic situation
      * using the toString-methods in the components.
      */
-    public void print() {}
+    public void print() {
+    	
+    	System.out.println( s1.toString() + ":" + r1.toString() + r0.toString() );
+    	System.out.println( s2.toString() + ":" + r2.toString() + "\n" );
+    }
 }
