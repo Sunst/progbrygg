@@ -19,13 +19,14 @@ public class Lane {
      * this method using the method below).
      */
     public void step() {
+    	  	
     	
-    	theLane[0] = null;
-    	
-    	for ( int i=theLane.length-1; i>=1; i-- ){
+    	for ( int i=0; i<theLane.length-1; i++ ){
     		
-    		theLane[i] = theLane[i-1];
+    		theLane[i] = theLane[i+1];
     	}
+    	
+    	theLane[theLane.length-1] = null;
     }
 
     /**
