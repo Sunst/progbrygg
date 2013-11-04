@@ -8,41 +8,79 @@ public class Lane {
     /**
      *  Constructs a  Lane-object with place for n vehicles
      */
-    public Lane(int n) {}
+    public Lane(int n) {
+
+    	theLane = new Vehicle[n];
+    }
 
     /**
      * Step all vehicles (except the one in place 0) one step
      * (if possible). (The vehicle at position 0 is removed before calling
      * this method using the method below).
      */
-    public void step() {}
+    public void step() {
+    	
+    	theLane[0] = null;
+    	
+    	for ( int i=theLane.length-1; i>=1; i-- ){
+    		
+    		theLane[i] = theLane[i-1];
+    	}
+    }
 
     /**
      * Removes the first vehicel
      * @return The Vehicle at the first place or null if it is empty
      */
-    public Vehicle removeFirst() {return null;}
+    public Vehicle removeFirst() {
+    	
+    	Vehicle v = theLane[0];
+    	theLane[0] = null;
+    	return v;
+    }
 
     /**
      * Returns the first vehicle without removing it
      * @return A reference to the vehicle in the first place or null if it is
      * empty
      */
-    public Vehicle getFirst() {return null;}
+    public Vehicle getFirst() {
+    	
+    	return theLane[0];
+    }
 
     /**
      * @return true if the last place if empty, else false
      */
-    public boolean lastFree() {return true;}
+    public boolean lastFree() {
+    	
+    	return theLane[theLane.length-1] == null;
+    }
 
     /**
      * Stores a vehicle at the end of the lane
      * @param v The vehicle that is to be stored
      */
-    public void putLast(Vehicle v) {}
+    public void putLast(Vehicle v) {
+    	
+    	theLane[theLane.length-1] = v;
+    }
 
     /**
      * @return A string representation of a lane and its vehicles
      */
-    public String toString() {return null;}
+    public String toString() {
+    	
+    	String str = "|";
+    	for ( int i = 0; i<theLane.length; i++ ) {
+    		if ( theLane[i] == null )
+    			str += "    |";
+    		else {
+    			
+    			Vehicle v = theLane[i];
+    			str += v.toString() + "|";
+    		}	
+    	}
+    	return str;
+    }
 }

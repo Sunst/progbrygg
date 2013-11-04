@@ -26,6 +26,6 @@ public class Vehicle {
     
     public String toString() {
     	
-    	return "vehicle born at t=" + bornTime + " going to " + destination;
+    	return "t=" + bornTime + ", d=" + destination;
     }	
 }

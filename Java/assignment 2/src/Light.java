@@ -6,20 +6,34 @@ public class Light {
     private int green;
     private int time;
 
-    public Light(int p, int g) {}
+    public Light(int p, int g) {
+    	
+    	period = p;
+    	green = g;
+    	time = 0;
+    }
 
     /**
      * Steps the clock of the signal
      */
-    public void step() {}
+    public void step() {
+    	    	
+    	if ( time + 1 < period )
+    		time++;
+    	else
+    		time = 0;
+    }
 
     /**
      * @return true if the signal is green otherwise false
      */
-    public boolean isGreen() {return true;}
+    public boolean isGreen() {
+    	
+    	return time < green;
+    }
 
     /**
      * @return A String-representation of the signal that shows its color
      */
-    public String  toString()  {return null;}	
+    public String  toString()  {return "a light thingy";}	
 }

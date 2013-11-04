@@ -54,15 +54,30 @@ public class TrafficSystem {
     private Lane  r2;
     private Light s1;
     private Light s2;
-
+    
     // Various attributes for simulation parameters (intensity of arrivals
     // destinations...)
-    
+    public static final double ProbArrival = 0.4;
+    public static final double ProbDestinationSouth = 0.3;
+    public static final int    S1Period = 7;
+    public static final int    S1Green = 3;
+    public static final int    S2Period = 7;
+    public static final int    S2Green = 3;
+    public static final int    R0Length = 10;
+    public static final int    R1R2Length = 5;
     // Various attributes for collection  of statistics
     
     private int time = 0;
 
-    public TrafficSystem() {}
+    public TrafficSystem() {
+    	
+    	r0 = new Lane( R0Length );
+    	r1 = new Lane( R1R2Length );
+    	r2 = new Lane( R1R2Length );
+    	
+    	s1 = new Light( S1Period, S1Green );
+    	s2 = new Light( S2Period, S2Green );
+    }
 
     /**
      * Defines how vehicles should mod in the system.
@@ -70,7 +85,45 @@ public class TrafficSystem {
      * components
      * Creates vehicles, add and remove into the different lanes.
      */
-    public void step() {}
+    public void step() {
+    	
+    	if ( s1.isGreen() ) r1.step();    	    
+    	if ( s2.isGreen() ) r2.step();
+    	
+    	// move cars from r0 to r1/r2
+    	Vehicle v0 = r0.getFirst();
+    	if ( v0 != null ) {
+    		boolean moveR0 = false;
+	    	if ( v0.destination() == 'S' ) {
+	    		if ( r2.lastFree() ) {
+	    			r2.putLast( v0 );
+	    			moveR0 = true;
+	    		}
+	    	}
+	    	else {
+	    		if ( r1.lastFree() ) {
+	    			r1.putLast( v0 );
+	    			moveR0 = true;
+	    		}
+	    	}
+	    	if ( moveR0 )  {
+	    		r0.step();
+	    		// do we need a new car?	    			    		
+	    		if ( Math.random() <= ProbArrival ){
+		    		// direction
+		    		char dest = 'W';    		
+		    		if ( Math.random() <= ProbDestinationSouth ) 			
+		    			dest = 'S';
+		    		r0.putLast( new Vehicle( time, dest ) );		    	
+	    		}
+	    	}
+    	}
+    	    	    
+    	// propagate the step   
+    	s1.step();
+    	s2.step();
+    	time++;
+    }
 
     /**
      * Print the collected statistics sofar
