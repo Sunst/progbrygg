@@ -87,13 +87,21 @@ public class TrafficSystem {
      */
     public void step() {
     	
-    	if ( s1.isGreen() ) r1.step();    	    
-    	if ( s2.isGreen() ) r2.step();
+    	// move cars in r1/r2  if green
+    	if ( s1.isGreen() ) 
+    		r1.step();    	    
+    	if ( s2.isGreen() ) 
+    		r2.step();
     	
-    	// move cars from r0 to r1/r2
+    	// move the first car in r0 into r1/r2 if possible
     	Vehicle v0 = r0.getFirst();
-    	if ( v0 != null ) {
-    		boolean moveR0 = false;
+		boolean moveR0 = false;    	
+    	if ( v0 == null ) {
+    		// the first spot in r0 is free, so cars behind it will fill it up
+    		moveR0 = true;
+    	}
+    	else {
+    		// there is a car in the first spot of r0. Determine if it can proceed
 	    	if ( v0.destination() == 'S' ) {
 	    		if ( r2.lastFree() ) {
 	    			r2.putLast( v0 );
@@ -105,21 +113,22 @@ public class TrafficSystem {
 	    			r1.putLast( v0 );
 	    			moveR0 = true;
 	    		}
-	    	}
-	    	if ( moveR0 )  {
-	    		r0.step();
-	    		// do we need a new car?	    			    		
-	    		if ( Math.random() <= ProbArrival ){
-		    		// direction
-		    		char dest = 'W';    		
-		    		if ( Math.random() <= ProbDestinationSouth ) 			
-		    			dest = 'S';
-		    		r0.putLast( new Vehicle( time, dest ) );		    	
-	    		}
-	    	}
+	    	}	    	
     	}
+    	
+    	if ( moveR0 )  {
+    		r0.step();
+    		// do we need a new car?	    			    		
+    		if ( Math.random() <= ProbArrival ){
+	    		// direction
+	    		char dest = 'W';    		
+	    		if ( Math.random() <= ProbDestinationSouth ) 			
+	    			dest = 'S';
+	    		r0.putLast( new Vehicle( time, dest ) );		    	
+    		}
+    	}    	
     	    	    
-    	// propagate the step   
+    	// propagate the step to the signals   
     	s1.step();
     	s2.step();
     	time++;
