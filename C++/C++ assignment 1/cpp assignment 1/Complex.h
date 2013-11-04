@@ -28,11 +28,9 @@ public:
     Complex operator+( Complex x );
     Complex operator+( double x );
     Complex operator-( Complex x );
-    Complex operator-( double x );
     Complex operator*( Complex x );
     Complex operator*( double x );
     Complex operator/( Complex x );
-    Complex operator/( double x );
     double abs();
 };
 
