@@ -65,7 +65,17 @@ public class TrafficSystem {
     public static final int    S2Green = 3;
     public static final int    R0Length = 10;
     public static final int    R1R2Length = 5;
+    
     // Various attributes for collection  of statistics
+    private int maxTimeS1 = 0 ;
+    private int vehicleCntS1 = 0;
+    private double avgTimeS1 = 0.0;
+    
+    private int maxTimeS2 = 0 ;
+    private int vehicleCntS2 = 0;
+    private double avgTimeS2 = 0.0;
+    
+    private int timeBlocked = 0;
     
     private int time = 0;
 
@@ -88,10 +98,40 @@ public class TrafficSystem {
     public void step() {
     	
     	// move cars in r1/r2  if green
-    	if ( s1.isGreen() ) 
-    		r1.step();    	    
-    	if ( s2.isGreen() ) 
+    	if ( s1.isGreen() ) {
+    		    		
+    		Vehicle v = r1.getFirst();
+    		if ( v != null ){
+        		
+        		vehicleCntS1++;		
+    			// max travel time
+    			int traveralTime = time - v.bornTime() ; 
+    			if ( maxTimeS1 < traveralTime )
+    				maxTimeS1 = traveralTime;
+    			
+    			// avg travel time
+    			avgTimeS1 = (avgTimeS1*(vehicleCntS1-1) + traveralTime)/vehicleCntS1;    			
+    		}    		
+    		r1.step();
+    	}
+    		
+    	if ( s2.isGreen() ) {
+    		
+    		Vehicle v = r2.getFirst();
+    		if ( v != null ){
+        		
+        		vehicleCntS2++;		
+    			// max travel time
+    			int traveralTime = time - v.bornTime() ; 
+    			if ( maxTimeS2 < traveralTime )
+    				maxTimeS2 = traveralTime;
+    			
+    			// avg travel time
+    			avgTimeS2 = (avgTimeS2*(vehicleCntS2-1) + traveralTime)/vehicleCntS2;    			
+    		}     		
     		r2.step();
+    	}
+    		
     	
     	// move the first car in r0 into r1/r2 if possible
     	Vehicle v0 = r0.getFirst();
@@ -126,7 +166,11 @@ public class TrafficSystem {
 	    			dest = 'S';
 	    		r0.putLast( new Vehicle( time, dest ) );		    	
     		}
-    	}    	
+    	}
+    	else {
+    		
+    		timeBlocked++;
+    	}
     	    	    
     	// propagate the step to the signals   
     	s1.step();
@@ -135,9 +179,18 @@ public class TrafficSystem {
     }
 
     /**
-     * Print the collected statistics sofar
+     * Print the collected statistics so far
      */
-    public void printStatistics() {}
+    public void printStatistics() {
+    	System.out.println( "S1\nCars passed: " + vehicleCntS1 );
+    	System.out.println( "avg/max time: " + avgTimeS1 + "/" + maxTimeS1 );
+    	
+    	System.out.println( "S2\nCars passed: " + vehicleCntS2 );
+    	System.out.println( "avg/max time: " + avgTimeS2 + "/" + maxTimeS2 );
+    	
+    	System.out.println( "Junction blocked: " + 100.0 * timeBlocked/time + "%" );
+    	
+    }
 
     /**
      * Prints a graphical representation of the current traffic situation
@@ -147,5 +200,6 @@ public class TrafficSystem {
     	
     	System.out.println( s1.toString() + ":" + r1.toString() + r0.toString() );
     	System.out.println( s2.toString() + ":" + r2.toString() + "\n" );
-    }
+    	
+    }       
 }

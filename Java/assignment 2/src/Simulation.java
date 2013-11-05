@@ -19,6 +19,7 @@ public class Simulation {
         	
         	tf.step();
         	tf.print();
+        	tf.printStatistics();
         }
 	///...
     }
