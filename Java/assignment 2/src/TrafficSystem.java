@@ -1,3 +1,8 @@
+// Uppsala University
+// Department Of IT
+// Programming bridging course Autumn 2013
+// Java assignment 2
+// Student: Knut Lorenzen 810326-T296
 /**                                                             TrafficSystem
  * <pre>
  * Defines the lanes and signals that is to be studied. Collects statistics
