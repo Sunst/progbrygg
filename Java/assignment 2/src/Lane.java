@@ -25,14 +25,16 @@ public class Lane {
      * this method using the method below).
      */
     public void step() {
-    	  	
-    	
+    	  	    	
     	for ( int i=0; i<theLane.length-1; i++ ){
-    		
-    		theLane[i] = theLane[i+1];
+    		    		
+    		if ( theLane[i] == null && theLane[i+1] != null )  {  	
+    			    		
+    			theLane[i] = theLane[i+1];
+    			theLane[i+1] = null;
+    		}
     	}
     	
-    	theLane[theLane.length-1] = null;
     }
 
     /**

@@ -102,10 +102,11 @@ public class TrafficSystem {
      */
     public void step() {
     	
-    	// move cars in r1/r2  if green
+
+    	// remove cars from r1/r2 if green, record stats
     	if ( s1.isGreen() ) {
     		    		
-    		Vehicle v = r1.getFirst();
+    		Vehicle v = r1.removeFirst();
     		if ( v != null ){
         		
         		vehicleCntS1++;		
@@ -117,12 +118,11 @@ public class TrafficSystem {
     			// avg travel time
     			avgTimeS1 = (avgTimeS1*(vehicleCntS1-1) + traveralTime)/vehicleCntS1;    			
     		}    		
-    		r1.step();
     	}
     		
     	if ( s2.isGreen() ) {
     		
-    		Vehicle v = r2.getFirst();
+    		Vehicle v = r2.removeFirst();
     		if ( v != null ){
         		
         		vehicleCntS2++;		
@@ -133,50 +133,52 @@ public class TrafficSystem {
     			
     			// avg travel time
     			avgTimeS2 = (avgTimeS2*(vehicleCntS2-1) + traveralTime)/vehicleCntS2;    			
-    		}     		
-    		r2.step();
+    		}     		    		
     	}
     		
-    	
+		r1.step();
+		r2.step();
+		    	
     	// move the first car in r0 into r1/r2 if possible
-    	Vehicle v0 = r0.getFirst();
-		boolean moveR0 = false;    	
-    	if ( v0 == null ) {
-    		// the first spot in r0 is free, so cars behind it will fill it up
-    		moveR0 = true;
-    	}
-    	else {
-    		// there is a car in the first spot of r0. Determine if it can proceed
+    	Vehicle v0 = r0.getFirst();    	
+    	if ( v0 != null ) {
+    	
 	    	if ( v0.destination() == 'S' ) {
+	    		
 	    		if ( r2.lastFree() ) {
-	    			r2.putLast( v0 );
-	    			moveR0 = true;
+	    			
+	    			r2.putLast( v0 );	
+	    			r0.removeFirst();
 	    		}
+	    		else
+	    			timeBlocked++;    		
 	    	}
-	    	else {
+	    	else if ( v0.destination() == 'W' ) {
+	    		
 	    		if ( r1.lastFree() ) {
+	    			
 	    			r1.putLast( v0 );
-	    			moveR0 = true;
+	    			r0.removeFirst();
 	    		}
-	    	}	    	
+	    		else 
+	    			timeBlocked++;
+	    	}
     	}
     	
-    	if ( moveR0 )  {
-    		r0.step();
+    	r0.step();
+    	
+    	if ( r0.lastFree() )  {
+    		
     		// do we need a new car?	    			    		
     		if ( Math.random() <= ProbArrival ){
-	    		// direction
+	    		// destination
 	    		char dest = 'W';    		
 	    		if ( Math.random() <= ProbDestinationSouth ) 			
 	    			dest = 'S';
 	    		r0.putLast( new Vehicle( time, dest ) );		    	
     		}
     	}
-    	else {
-    		
-    		timeBlocked++;
-    	}
-    	    	    
+    		    	    	    	    
     	// propagate the step to the signals   
     	s1.step();
     	s2.step();
